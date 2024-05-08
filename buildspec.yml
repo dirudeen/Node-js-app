@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DOCKER_CRED_USR: /node-js-app/docker-cred/username
+    DOCKER_CRED_PSW: /node-js-app/docker-cred/password
+   
+phases:
+  install:
+    runtime-versions:
+      node: 20.13.0
+    commands:
+      - echo "Updating repository..."
+      - apt update && apt upgrade -y
+  pre_build:
+    commands:
+      - echo "Installing dependencies..."
+      - npm install
+  build:
+    commands:
+      - echo "Building docker image..."
+      - docker build -t "DOCKER_CRED_USR/nodejs-app:latest" .
+      - docker scan "DOCKER_CRED_USR/nodejs-app:latest"
+      - echo "Pushing docker image..."
+      - docker login -u "DOCKER_CRED_USR" --password-stdin "DOCKER_CRED_PSW"
+      - docker push "DOCKER_CRED_USR/nodejs-app:latest"
+
+
