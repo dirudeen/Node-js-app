@@ -8,7 +8,7 @@ env:
 phases:
   install:
     runtime-versions:
-      node: 20.13.0
+      nodejs: 20.13.0
     commands:
       - echo "Updating repository..."
       - apt update && apt upgrade -y
@@ -24,7 +24,7 @@ phases:
       - echo "Pushing docker image..."
       - docker login -u "DOCKER_CRED_USR" --password-stdin "DOCKER_CRED_PSW"
       - docker push "DOCKER_CRED_USR/nodejs-app:latest"
-      
+
   post_build:
     commands:
       - echo "Build completed successfully!"
