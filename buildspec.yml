@@ -24,5 +24,7 @@ phases:
       - echo "Pushing docker image..."
       - docker login -u "DOCKER_CRED_USR" --password-stdin "DOCKER_CRED_PSW"
       - docker push "DOCKER_CRED_USR/nodejs-app:latest"
-
-
+      
+  post_build:
+    commands:
+      - echo "Build completed successfully!"
