@@ -4,7 +4,7 @@ env:
   parameter-store:
     DOCKER_CRED_USR: /node-js-app/docker-cred/username
     DOCKER_CRED_PSW: /node-js-app/docker-cred/password
-   
+    DOCKER_REGISTRY_URL: /node-js-app/docker-registry-url
 phases:
   install:
     runtime-versions:
@@ -18,7 +18,7 @@ phases:
       - echo "Building docker image..."
       - docker build -t "$DOCKER_CRED_USR/nodejs-app:latest" .
       - echo "Pushing docker image..."
-      - docker login -u "$DOCKER_CRED_USR" --password-stdin "$DOCKER_CRED_PSW"
+      - echo "$DOCKER_CRED_PSW" | docker login -u "$DOCKER_CRED_USR" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker push "$DOCKER_CRED_USR/nodejs-app:latest"
 
   post_build:
