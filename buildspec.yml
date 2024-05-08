@@ -9,9 +9,6 @@ phases:
   install:
     runtime-versions:
       nodejs: 20.13.0
-    commands:
-      - echo "Updating repository..."
-      - apt update && apt upgrade -y
   pre_build:
     commands:
       - echo "Installing dependencies..."
@@ -19,7 +16,7 @@ phases:
   build:
     commands:
       - echo "Building docker image..."
-      - docker build -t "DOCKER_CRED_USR/nodejs-app:latest" .
+      - docker build -t $DOCKER_CRED_USR"/nodejs-app:latest" .
       - docker scan "DOCKER_CRED_USR/nodejs-app:latest"
       - echo "Pushing docker image..."
       - docker login -u "DOCKER_CRED_USR" --password-stdin "DOCKER_CRED_PSW"
